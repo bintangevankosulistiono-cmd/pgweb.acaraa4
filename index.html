@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeafLetJS</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        var map = L.map('map').setView([2.6824299, 116.9384766
+        ], 5);
+
+        // Tile Layer Base Map
+        var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var rupabumiindonesia = L.tileLayer('https://geoservices.big.go.id/rbi/rest/services/BASEMAP/Rupabumi_Indonesia/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Badan Informasi Geospasial'
+        });
+
+        // Menambahkan basemap ke dalam peta
+        Esri_WorldImagery.addTo(map);
+
+        // Marker
+        var marker = L.marker([2.6824299, 116.9384766]);
+        var marker2 = L.marker([-7.4099178, 111.0058594
+        ]);
+        var marker3 = L.marker([-0.7472900, 101.9091797
+        ]);
+        var marker4 = L.marker([-2.5475065, 120.2343750
+        ]);
+
+        // Popup
+        marker.bindPopup("<b>Kalimantan</b><br>Kalimantan adalah pulau terbesar ketiga di dunia yang terletak di kawasan Asia Tenggara dan dibagi menjadi wilayah Indonesia, Malaysia, serta Brunei Darussalam.");
+        marker.openPopup();
+        marker2.bindPopup("<b>Jawa</b><br>Jawa adalah salah satu pulau utama di Indonesia yang menjadi pusat politik, ekonomi, serta memiliki jumlah penduduk paling padat di negara ini.");
+        marker.openPopup();
+        marker3.bindPopup("<b>Sumatera</b><br>Sumatera adalah pulau terbesar keenam di dunia dan pulau terbesar yang sepenuhnya berada di wilayah Indonesia, terletak di bagian barat Nusantara.");
+        marker.openPopup();
+        marker4.bindPopup("<b>Sulawesi</b><br>Sulawesi adalah salah satu pulau besar di Indonesia yang berbentuk unik menyerupai huruf K dan terletak di antara Kalimantan dan Maluku.");
+        marker.openPopup();
+
+        // Tooltip
+        marker.bindTooltip("Kalimantan");
+        marker.openTooltip();
+        marker2.bindTooltip("Jawa");
+        marker.openTooltip();
+        marker3.bindTooltip("Sumatera");
+        marker.openTooltip();
+        marker4.bindTooltip("Sulawesi");
+        marker.openTooltip();
+
+        // Menambahkan marker ke dalam peta
+        marker.addTo(map);
+        marker2.addTo(map);
+        marker3.addTo(map);
+        marker4.addTo(map);
+
+        // Control Layer
+        var baseMaps = {
+            "OpenStreetMap": osm,
+            "Esri World Imagery": Esri_WorldImagery,
+            "Rupa Bumi Indonesia": rupabumiindonesia,
+        };
+
+        // Circle
+        var circle = L.circle([-7.2649052, 112.7598953
+        ], {
+            color: "red", // warna garis
+            opacity: 1, // opacity garis
+            fillColor: "yellow", // warna fill
+            fillOpacity: 0.5, // opacity fill
+            radius: 1000, // radius dalam meter
+        });
+
+        // Menambahkan circle ke dalam peta
+        circle.addTo(map);
+
+        // Polyline
+        var vertexPolyline = [
+            [2.6824299, 116.9384766],
+            [-7.4099178, 111.0058594],
+            [-0.7472900, 101.9091797],
+            [-2.5475065, 120.2343750],
+        ];
+        var polyline = L.polyline(vertexPolyline, {
+            color: "red", // warna garis
+            weight: 8, // ketebalan garis
+            opacity: 1, // opacity garis
+        });
+
+        // Menambahkan polyline ke dalam peta
+        polyline.addTo(map);
+
+        // Popup
+        polyline.bindPopup("<b>Hallo</b><br>Ini adalah popup polyline");
+        polyline.openPopup();
+
+        // Tooltip
+        polyline.bindTooltip("Ini adalah tooltip polyline");
+        polyline.openTooltip();
+
+        // Popup
+        circle.bindPopup("<b>Hallo</b><br>Ini adalah popup circle");
+        circle.openPopup();
+
+        // Tooltip
+        circle.bindTooltip("Ini adalah tooltip circle", { sticky: true });
+        circle.openTooltip();
+
+        // Polygon bentuk bintang ⭐
+        var vertexPolygon = [
+            [-6.1550000, 106.8250000], // ujung atas
+            [-6.1744828, 106.8326412],
+            [-6.1757295, 106.8535317], // ujung kanan atas
+            [-6.1890172, 106.8373637],
+            [-6.2092705, 106.8426336], // ujung kanan bawah
+            [-6.1980000, 106.8250000],
+            [-6.2092705, 106.8073664], // ujung kiri bawah
+            [-6.1890172, 106.8126363],
+            [-6.1757295, 106.7964683], // ujung kiri atas
+            [-6.1744828, 106.8173588]
+        ];
+
+        var polygon = L.polygon(vertexPolygon, {
+            color: "purple",       // warna garis
+            weight: 3,             // ketebalan garis
+            opacity: 1,            // opacity garis
+            fillColor: "yellow",   // warna isi bintang
+            fillOpacity: 0.7       // opacity isi
+        });
+
+        // Popup
+        polygon.bindPopup(
+            "<b>Polygon Bintang ⭐</b><br>Polygon dibuat menggunakan koordinat latitude dan longitude."
+        );
+
+        // Tooltip
+        polygon.bindTooltip("Bintang ⭐");
+
+        // Menambahkan polygon ke dalam peta
+        polygon.addTo(map);
+
+        // Overlay Layer
+        var overlayMaps = {
+            "Kalimantan": marker,
+            "Jawa": marker2,
+            "Sumatera": marker3,
+            "Sulawesi": marker4,
+            "Circle": circle,
+            "Polyline": polyline,
+            "Polygon Bintang ⭐": polygon
+        };
+
+        // Control Layer
+        var controllayer = L.control.layers(
+            baseMaps,
+            overlayMaps,
+            {
+                collapsed: false
+            }
+        );
+
+        controllayer.addTo(map);
+
+        // Popup
+        polygon.bindPopup("<b>Hallo</b><br>Ini adalah popup polygon");
+        polygon.openPopup();
+
+        // Tooltip
+        polygon.bindTooltip("Ini adalah tooltip polygon");
+        polygon.openTooltip();
+
+        // Scale
+        var scale = L.control.scale();
+        scale.addTo(map);
+
+        // Geolocation
+        map.locate({
+            setView: true,
+            maxZoom: 16,
+        });
+
+        // Fungsi untuk menampilkan lokasi
+        function onLocationFound(e) {
+            var radius = e.accuracy / 2;
+
+            // Menampilkan marker pada lokasi 
+            L.marker(e.latlng).addTo(map).bindPopup("Anda berada dalam radius " + radius + " meter dari titik ini").openPopup();
+
+            // Menampilkan circle pada lokasi
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        map.on("locationfound", onLocationFound);
+
+        // Fungsi untuk menampilkan pesan error
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on("locationerror", onLocationError);
+
+    </script>
+
+</body>
+
+</html>
